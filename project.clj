@@ -2,7 +2,7 @@
 
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
-
+  :hooks [lein-typescript.plugin]
   :dependencies [[compojure "1.5.2"]
                  [cprop "0.1.10"]
                  [funcool/struct "1.0.0"]
@@ -38,7 +38,9 @@
 
   :plugins [[lein-cprop "1.0.1"]
             [lein-cljsbuild "1.1.5"]
-            [lein-immutant "2.1.0"]]
+            [lein-immutant "2.1.0"]
+            [lein-typescript "0.1.3"]
+            [lein-npm "0.6.2"]]
   :clean-targets ^{:protect false}
   [:target-path [:cljsbuild :builds :app :compiler :output-dir] [:cljsbuild :builds :app :compiler :output-to]]
   :figwheel
@@ -46,7 +48,46 @@
    :nrepl-port 7002
    :css-dirs ["resources/public/css"]
    :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
-  
+
+  :typescript {:sources ["src/ts/*.ts"]
+               :out-dir "target"
+               :module :amd
+               :declaration true
+               :source-map true
+               :remove-comments true
+               :preserve-const-enums true
+               :supress-implicit-any-index-errors true
+               :target :es6
+               :debug true}
+
+  :npm {:dependencies[[systemjs "0.19.40"]
+                      [core-js "^2.4.1"]
+                      [rxjs "5.0.1"]
+                      [zone.js "^0.8.4"]
+                      [angular-in-memory-web-api "~0.3.0"]
+                      ["@angular/common" "~4.0.0"]
+                      ["@angular/compiler" "~4.0.0"]
+                      ["@angular/core" "~4.0.0"]
+                      ["@angular/forms" "~4.0.0"]
+                      ["@angular/http" "~4.0.0"]
+                      ["@angular/platform-browser" "~4.0.0"]
+                      ["@angular/platform-browser-dynamic" "~4.0.0"]
+                      ["@angular/router" "~4.0.0"]]
+        :devDependencies[[concurrently "^3.2.0"]
+                         [lite-server "^2.2.2"]
+                         [typescript "~2.1.0"]
+                         [canonical-path "0.0.2"]
+                         [tslint "^3.15.1"]
+                         [lodash "^4.16.4"]
+                         [karma "^1.3.0"]
+                         [karma-chrome-launcher "^2.0.0"]
+                         [karma-cli "^1.0.1"]
+                         [karma-jasmine "^1.0.2"]
+                         [karma-jasmine-html-reporter "^0.2.2"]
+                         [protractor "~4.0.14"]
+                         [rimraf "^2.5.4"]
+                         ["@types/node" "^6.0.46"]
+                         ["@types/jasmine" "2.5.36"]]}
 
   :profiles
   {:uberjar {:omit-source true
