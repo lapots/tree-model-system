@@ -6,6 +6,7 @@
       <title>Welcome to tree-model-system</title>
   </head>
   <body>
+    <my-app>Loading...</my-app>
     <div id="navbar"></div>
     <div id="app">
       <div class="container-fluid">
@@ -32,6 +33,12 @@
     {% style "/assets/bootstrap/css/bootstrap.min.css" %}
     {% style "/assets/font-awesome/css/font-awesome.min.css" %}
     {% style "/css/screen.css" %}
+
+    {% script "/node_modules/es6-shim/es6-shim.min.js" %}
+    {% script "/node_modules/angular2/es6/dev/src/testing/shims_for_IE.js" %}
+    {% script "/node_modules/angular2/bundles/angular2-polyfills.js" %}
+    {% script "/node_modules/rxjs/bundles/Rx.umd.js" %}
+    {% script "/node_modules/angular2/bundles/angular2-all.umd.js" %}
 
     <script type="text/javascript">
         var context = "{{servlet-context}}";
