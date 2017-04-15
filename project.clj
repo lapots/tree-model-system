@@ -30,17 +30,17 @@
   :min-lein-version "2.0.0"
 
   :jvm-opts ["-server" "-Dconf=.lein-env"]
-  :source-paths ["src/clj" "src/cljc"]
+  :source-paths ["src/clj" "src/cljc" "src/ts"]
   :test-paths ["test/clj"]
-  :resource-paths ["resources" "target/cljsbuild"]
+  :resource-paths ["resources" "target/cljsbuild" "resources/public/node_modules"]
   :target-path "target/%s/"
   :main ^:skip-aot tree-model-system.core
 
   :plugins [[lein-cprop "1.0.1"]
             [lein-cljsbuild "1.1.5"]
             [lein-immutant "2.1.0"]
-            [lein-typescript "0.1.3"]
-            [lein-npm "0.6.2"]]
+            [lein-npm "0.6.2"]
+            [lein-typescript "0.1.3"]]
   :clean-targets ^{:protect false}
   [:target-path [:cljsbuild :builds :app :compiler :output-dir] [:cljsbuild :builds :app :compiler :output-to]]
   :figwheel
@@ -49,7 +49,7 @@
    :css-dirs ["resources/public/css"]
    :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
-  :typescript {:sources ["src/ts/*.ts"]
+  :typescript {:sources ["src/ts"]
                :out-dir "target"
                :module :amd
                :declaration true
@@ -60,7 +60,8 @@
                :target :es6
                :debug true}
 
-  :npm {:dependencies[[systemjs "0.19.40"]
+  :npm {:root "resources/public"
+        :dependencies[[systemjs "0.19.40"]
                       [core-js "^2.4.1"]
                       [rxjs "5.0.1"]
                       [zone.js "^0.8.4"]
