@@ -17,6 +17,7 @@
 
 (defn init! []
     (let [app (get-app)
+          ; I presume there we should reference to .js component
           c (.Component (.-core js/ng)
                         #js {:selector "my-app"
                              :template (html [:div

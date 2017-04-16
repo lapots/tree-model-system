@@ -38,9 +38,9 @@
 
   :plugins [[lein-cprop "1.0.1"]
             [lein-cljsbuild "1.1.5"]
-            [lein-immutant "2.1.0"]
-            [lein-npm "0.6.2"]
-            [lein-typescript "0.1.3"]]
+            [lein-immutant "2.1.0"]]
+            ;[lein-npm "0.6.2"]]
+            ;[lein-typescript "0.1.3"]]
   :clean-targets ^{:protect false}
   [:target-path [:cljsbuild :builds :app :compiler :output-dir] [:cljsbuild :builds :app :compiler :output-to]]
   :figwheel
@@ -49,8 +49,8 @@
    :css-dirs ["resources/public/css"]
    :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
 
-  :typescript {:sources ["src/ts"]
-               :out-dir "target"
+  :typescript {:sources ["resources/public/ts/*.ts"]
+               :out-dir "target/cljsbuild/public/js"
                :module :amd
                :declaration true
                :source-map true
