@@ -1,0 +1,54 @@
+apply plugin: 'clojure-min'
+apply plugin: 'war'
+apply plugin: 'com.moowork.node'
+
+clojure {
+    aotCompile = true
+    warnOnReflection = true
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url 'http://clojars.org/repo'
+        }
+    }
+    
+    dependencies {
+        classpath "clojuresque:clojuresque-base:1.6.0"
+        classpath "com.moowork.gradle:gradle-node-plugin:+"
+    }
+}
+
+repositories {
+    jcenter()
+    clojarsRepo()
+}
+
+group = 'com.lapots.tree.model'
+
+dependencies {
+    compile 'org.clojure:clojure:1.8.0'
+    compile "ring:ring:1.5.1"
+    compile "info.sunng:ring-jetty9-adapter:0.9.5"
+    compile "metosin:ring-http-response:0.8.2"
+    compile "compojure:compojure:+" // routing library
+    compile "cheshire:cheshire:+" // json library
+    compile "liberator:liberator:+" // resource representation library
+    
+    providedCompile 'javax.servlet:javax.servlet-api:4.0.0-b03'
+}
+
+node {
+    version = "7.7.4"
+    distBaseUrl = "https://nodejs.org/dist"
+    download = "true"
+    workDir = file("${project.buildDir}/nodejs")
+    nodeModulesDir = file("${project.projectDir}")
+}
+
+task startServer(dependsOn: classes, type: JavaExec) {
+    main = 'com.lapots.tree.model.core'
+    classpath = sourceSets.main.runtimeClasspath
+}
