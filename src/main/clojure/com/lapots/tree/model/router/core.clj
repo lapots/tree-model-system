@@ -13,5 +13,5 @@
       (resp/resource-response "index.html" { :root "" }))
 
 (defroutes routes
-           (GET "/" request rest-handler)
-           (GET "/home" request wrapped-file-response))
+           (GET "/" request wrapped-file-response)
+           (GET "/rest" request rest-handler))

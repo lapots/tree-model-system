@@ -21,4 +21,4 @@
         wrap-reload))
 
 (defn -main [& args]
-      (run-jetty app {:port 3000 :configurator conf :join? false}))
+      (run-jetty app {:port 8080 :configurator conf :join? false}))

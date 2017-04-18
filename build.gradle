@@ -4,7 +4,7 @@ apply plugin: 'com.moowork.node'
 
 clojure {
     aotCompile = true
-    warnOnReflection = true
+    warnOnReflection = false
 }
 
 buildscript {
@@ -52,3 +52,30 @@ task startServer(dependsOn: classes, type: JavaExec) {
     main = 'com.lapots.tree.model.core'
     classpath = sourceSets.main.runtimeClasspath
 }
+
+npmInstall {
+    args =[
+            '--unicode', 'false',
+            '--production',
+            '--loglevel', 'warn'
+    ]
+}
+
+def npmScriptPrefix = 'npm_run'
+tasks.addRule("Pattern: {npm_run_<task_name>") { taskName ->
+    if (taskName.startsWith(npmScriptPrefix)) {
+        tasks[taskName].dependsOn tasks.npmInstall
+    }
+}
+
+task cleanUI(type: Delete) << {
+    [
+            'node_modules'
+    ].each {
+        println 'Deleting $it'
+        delete it
+    }
+}
+
+tasks.clean.dependsOn tasks.cleanUI
+tasks.classes.dependsOn tasks['npm_run_build']
