@@ -1,6 +1,7 @@
 apply plugin: 'clojure-min'
 apply plugin: 'war'
 apply plugin: 'com.moowork.node'
+apply plugin: 'de.richsource.gradle.plugins.typescript'
 
 clojure {
     aotCompile = true
@@ -13,11 +14,15 @@ buildscript {
         maven {
             url 'http://clojars.org/repo'
         }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
     }
     
     dependencies {
         classpath "clojuresque:clojuresque-base:1.6.0"
         classpath "com.moowork.gradle:gradle-node-plugin:+"
+        classpath "de.richsource.gradle.plugins:typescript-gradle-plugin:1.8.0"
     }
 }
 
@@ -68,14 +73,26 @@ tasks.addRule("Pattern: {npm_run_<task_name>") { taskName ->
     }
 }
 
+import com.moowork.gradle.node.NodeExtension
+import com.moowork.gradle.node.variant.VariantBuilder
+
 task cleanUI(type: Delete) << {
-    [
-            'node_modules'
-    ].each {
+    ['node_modules'].each {
         println 'Deleting $it'
         delete it
     }
 }
 
 tasks.clean.dependsOn tasks.cleanUI
-tasks.classes.dependsOn tasks['npm_run_build']
+
+String nodeExecutable() {
+    NodeExtension nodeExt = NodeExtension.get(project)
+    return new VariantBuilder(nodeExt).build().nodeExec
+}
+
+compileTypeScript {
+    sourcemap = true
+    source = [ file("src/main/resources"), file("src/main/resources/app") ]
+    compilerExecutable "${nodeExecutable()} node_modules/typescript/lib/tsc.js"
+    dependsOn "npmInstall"
+}
