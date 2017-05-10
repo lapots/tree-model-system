@@ -1,98 +1,30 @@
-apply plugin: 'clojure-min'
-apply plugin: 'war'
-apply plugin: 'com.moowork.node'
-apply plugin: 'de.richsource.gradle.plugins.typescript'
-
-clojure {
-    aotCompile = true
-    warnOnReflection = false
-}
 
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url 'http://clojars.org/repo'
-        }
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
+        maven { url 'https://repo.spring.io/libs-snapshot' }
     }
-    
     dependencies {
-        classpath "clojuresque:clojuresque-base:1.6.0"
-        classpath "com.moowork.gradle:gradle-node-plugin:+"
-        classpath "de.richsource.gradle.plugins:typescript-gradle-plugin:1.8.0"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
     }
 }
+
+apply plugin: 'war'
+apply plugin: 'org.springframework.boot'
 
 repositories {
     jcenter()
-    clojarsRepo()
+    maven { url "http://repo.spring.io/snapshot" }
+    maven { url "http://repo.spring.io/milestone" }
 }
 
-group = 'com.lapots.tree.model'
+group = 'com.lapots.tree.model.web'
 
 dependencies {
-    compile 'org.clojure:clojure:1.8.0'
-    compile "ring:ring:1.5.1"
-    compile "info.sunng:ring-jetty9-adapter:0.9.5"
-    compile "metosin:ring-http-response:0.8.2"
-    compile "compojure:compojure:+" // routing library
-    compile "cheshire:cheshire:+" // json library
-    compile "liberator:liberator:+" // resource representation library
-    
-    providedCompile 'javax.servlet:javax.servlet-api:4.0.0-b03'
+    compile "org.springframework.boot:spring-boot-starter-parent:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-webflux:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-jetty:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
 }
 
-node {
-    version = "7.7.4"
-    distBaseUrl = "https://nodejs.org/dist"
-    download = "true"
-    workDir = file("${project.buildDir}/nodejs")
-    nodeModulesDir = file("${project.projectDir}")
-}
-
-task startServer(dependsOn: classes, type: JavaExec) {
-    main = 'com.lapots.tree.model.core'
-    classpath = sourceSets.main.runtimeClasspath
-}
-
-npmInstall {
-    args =[
-            '--unicode', 'false',
-            '--production',
-            '--loglevel', 'warn'
-    ]
-}
-
-def npmScriptPrefix = 'npm_run'
-tasks.addRule("Pattern: {npm_run_<task_name>") { taskName ->
-    if (taskName.startsWith(npmScriptPrefix)) {
-        tasks[taskName].dependsOn tasks.npmInstall
-    }
-}
-
-import com.moowork.gradle.node.NodeExtension
-import com.moowork.gradle.node.variant.VariantBuilder
-
-task cleanUI(type: Delete) << {
-    ['node_modules'].each {
-        println 'Deleting $it'
-        delete it
-    }
-}
-
-tasks.clean.dependsOn tasks.cleanUI
-
-String nodeExecutable() {
-    NodeExtension nodeExt = NodeExtension.get(project)
-    return new VariantBuilder(nodeExt).build().nodeExec
-}
-
-compileTypeScript {
-    sourcemap = true
-    source = [ file("src/main/resources"), file("src/main/resources/app") ]
-    compilerExecutable "${nodeExecutable()} node_modules/typescript/lib/tsc.js"
-    dependsOn "npmInstall"
-}
