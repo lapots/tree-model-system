@@ -38,8 +38,6 @@ dependencies {
     runtime('org.springframework.boot:spring-boot-devtools')
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile("org.springframework:spring-test")
-    testCompile("org.junit.platform:junit-platform-runner:$junitPlatformVersion")
     testCompile("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
     testCompile("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
 }
