@@ -3,4 +3,4 @@ Web application that allows creating and manipulating tree structures with compl
 
 # start
 
-To start application use `gradlew bootRun`
+To start application use `gradlew clean build runAll`

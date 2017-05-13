@@ -1,0 +1,4 @@
+rootProject.name='tree-model-system'
+
+include 'boot-backend'
+include 'angular-frontend'

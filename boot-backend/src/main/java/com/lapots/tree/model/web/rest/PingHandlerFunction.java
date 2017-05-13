@@ -11,6 +11,6 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 public class PingHandlerFunction implements HandlerFunction<ServerResponse> {
     @Override
     public Mono<ServerResponse> handle(ServerRequest request) {
-        return ok().body(fromObject("true"));
+        return ok().body(fromObject("{ \"response\" : \"true\" }"));
     }
 }
