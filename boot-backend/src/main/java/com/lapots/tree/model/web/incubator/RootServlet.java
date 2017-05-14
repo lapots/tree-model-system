@@ -1,6 +1,6 @@
-package com.lapots.tree.model.web;
+package com.lapots.tree.model.web.incubator;
 
-import com.lapots.tree.model.web.rest.PingHandlerFunction;
+import com.lapots.tree.model.web.incubator.rest.PingHandlerFunction;
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.http.server.reactive.ServletHttpHandlerAdapter;
 import org.springframework.web.reactive.function.server.RouterFunction;

@@ -8,11 +8,13 @@ import { routing, appRouterProviders } from './app.routing';
 import { AppComponent } from './app.component';
 import { PingComponent } from './ping/ping.component';
 import { HomeComponent } from './home/home.component';
+import { DialogItemComponent } from './dialogItem/dialogItem.component';
 
 @NgModule({
     declarations: [AppComponent,
                    PingComponent,
-                   HomeComponent],
+                   HomeComponent,
+                   DialogItemComponent],
     imports: [BrowserModule,
               FormsModule,
               ReactiveFormsModule,

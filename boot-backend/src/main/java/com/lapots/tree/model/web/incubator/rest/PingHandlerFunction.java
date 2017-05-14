@@ -1,4 +1,4 @@
-package com.lapots.tree.model.web.rest;
+package com.lapots.tree.model.web.incubator.rest;
 
 import org.springframework.web.reactive.function.server.HandlerFunction;
 import org.springframework.web.reactive.function.server.ServerRequest;
