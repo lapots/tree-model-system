@@ -11,8 +11,6 @@ public class DialogLineController {
     @Autowired
     private IDialogLineService service;
 
-    // to have something in the database I suggest to insert some dialog lines if needed
-    // CREATE(
     @CrossOrigin(origins="http://localhost:3000")
     @RequestMapping(value="/tree-model-rest/dialog/{id}", method= RequestMethod.GET, produces="application/json")
     public @ResponseBody DialogLine findDialogLine(@PathVariable String id) {

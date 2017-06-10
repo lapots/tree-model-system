@@ -7,6 +7,4 @@ import java.util.List;
 public interface IDialogLineService {
 
     DialogLine findById(String id);
-
-    List<DialogLine> findByOwner(String owner);
 }
