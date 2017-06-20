@@ -38,3 +38,5 @@ js/lib/
 typings/
 coverage/
 application-templates/www/
+
+classes/
