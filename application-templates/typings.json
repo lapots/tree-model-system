@@ -1,0 +1,5 @@
+{
+  "ambientDependencies": {
+    "es6-min": "registry:dt/es6-min#0.31.2+20160317120654"
+  }
+}
